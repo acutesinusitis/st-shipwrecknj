@@ -1,3 +1,11 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import streamlit as st
+from PIL import Image
+import plotly.express as px #New Package
+import pydeck as pdk
+import numpy as np
+
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
 path = "C:/Users/acute/OneDrive - Bentley University/"
