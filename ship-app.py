@@ -146,7 +146,7 @@ def page4():
                           (df_page_3["DRAFT"] >= min_values3) & (df_page_3["DRAFT"] <= max_values3)
                           & (df_page_3["GROSS TONNAGE"] >= min_values4) & (df_page_3["GROSS TONNAGE"] <= max_values4)][
         ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
-    df_page_3 = df_page_3.replace(0, "No Data")
+    # df_page_3 = df_page_3.replace(0, "No Data")
     st.write(df_page_3)
     st.write("Length, Beam, and Draft Measurements are in Feet. Gross Tonnage is in Tons.")
 
