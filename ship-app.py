@@ -84,21 +84,22 @@ def page2():
 
 def page3():
     st.title("Value of Treasure")
-    min_value = 0 #CAPITALIZE
-    max_value = 9000000
-    max_value2 = 550000
-    default_values = [0, 9000000]
-    default_values2 = [0,550000]
-    min_values, max_values = st.slider(f"Select a ship value range: {min_value} to {max_value}", min_value, max_value, default_values, 1000)
+    MIN_VALUE = 0
+    INCREMENT = 1000
+    MAX_VALUE = int(max(df["SHIP VALUE"]))
+    MAX_VALUE2 = int(max(df["CARGO VALUE"]))
+    DEFAULT_VALUES = [MIN_VALUE, MAX_VALUE]
+    DEFAULT_VALUES2 = [MIN_VALUE,MAX_VALUE2]
+    min_values, max_values = st.slider(f"Select a ship value range: {MIN_VALUE} to {MAX_VALUE}", MIN_VALUE, MAX_VALUE, DEFAULT_VALUES, INCREMENT)
     st.write(f"Selected ship value range: {min_values} to {max_values}")
-    min_values2, max_values2 = st.slider(f"Select a cargo value range: {min_value} to {max_value2}", min_value, max_value2, default_values2, 1000)
+    min_values2, max_values2 = st.slider(f"Select a cargo value range: {MIN_VALUE} to {MAX_VALUE2}", MIN_VALUE, MAX_VALUE2, DEFAULT_VALUES2, INCREMENT)
     st.write(f"Selected cargo value range: {min_values2} to {max_values2}")
     df["SHIP VALUE"] = pd.to_numeric(df["SHIP VALUE"])
     df["CARGO VALUE"] = pd.to_numeric(df["CARGO VALUE"])
     df_page_2 = df.loc[:,["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
     df_page_2 = df_page_2[(df_page_2["SHIP VALUE"] >= min_values) & (df_page_2["SHIP VALUE"] <= max_values) #Filter by two or more conditions
     & (df_page_2["CARGO VALUE"] >= min_values2) & (df_page_2["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
-    # df_page_2 = df_page_2.replace(0, "No Data")
+    df_page_2 = df_page_2.replace(0, "No Data")
     st.write(df_page_2)
     def min_nonzero(x):
         nonzero_vals = x[x != 0]
@@ -116,19 +117,18 @@ def page3():
     st.write(pivot_table2)
     st.write(f"All values are dollar denominated.")
 
-
 def page4():
     st.title("Ship Dimension Specifications")
     MIN_VALUE = 0
     INCREMENT = 5
-    MAX_VALUE_LENGTH = 700
-    MAX_VALUE_BEAM = 100
-    MAX_VALUE_DRAFT = 105
-    MAX_VALUE_GROSS = 29100
-    DEFAULT_VALUE_LENGTH = [0, 700]
-    DEFAULT_VALUE_BEAM = [0, 100]
-    DEFAULT_VALUE_DRAFT = [0, 105]
-    DEFAULT_VALUE_GROSS = [0, 29100]
+    MAX_VALUE_LENGTH = math.ceil(df["LENGTH"].max() / INCREMENT) * INCREMENT #These values are chosen as numbers that are a multiple of 5 above the maximum value in each column
+    MAX_VALUE_BEAM = math.ceil(df["BEAM"].max() / INCREMENT) * INCREMENT
+    MAX_VALUE_DRAFT = math.ceil(df["DRAFT"].max() / INCREMENT) * INCREMENT
+    MAX_VALUE_GROSS = math.ceil(df["GROSS TONNAGE"].max() / INCREMENT) * INCREMENT
+    DEFAULT_VALUE_LENGTH = [MIN_VALUE, MAX_VALUE_LENGTH]
+    DEFAULT_VALUE_BEAM = [MIN_VALUE, MAX_VALUE_BEAM]
+    DEFAULT_VALUE_DRAFT = [MIN_VALUE, MAX_VALUE_DRAFT]
+    DEFAULT_VALUE_GROSS = [MIN_VALUE, MAX_VALUE_GROSS]
     min_values, max_values= st.slider("Select a ship length range:", MIN_VALUE, MAX_VALUE_LENGTH, DEFAULT_VALUE_LENGTH, INCREMENT)
     st.write(f"Selected ship length range: {min_values} to {max_values}")
     min_values2, max_values2 = st.slider("Select a ship beam range:", MIN_VALUE, MAX_VALUE_BEAM, DEFAULT_VALUE_BEAM, INCREMENT)
@@ -147,7 +147,7 @@ def page4():
                           (df_page_3["DRAFT"] >= min_values3) & (df_page_3["DRAFT"] <= max_values3)
                           & (df_page_3["GROSS TONNAGE"] >= min_values4) & (df_page_3["GROSS TONNAGE"] <= max_values4)][
         ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
-    # df_page_3 = df_page_3.replace(0, "No Data")
+    #df_page_3 = df_page_3.replace(0, "No Data")
     st.write(df_page_3)
     st.write("Length, Beam, and Draft Measurements are in Feet. Gross Tonnage is in Tons.")
 
@@ -162,10 +162,10 @@ def main():
     if choice == "Map":
         page1()
         columns = ["LATITUDE", "LONGITUDE"]
-        column_name = st.selectbox("Please select a column: ", columns)
-        st.write("You have selected", column_name)
-        string_min, string_max = str(minmax(column_name, df)[0]), str(minmax(column_name, df)[-1])
-        st.write(f"The minimum {column_name.lower()} is", string_min, f"and the maximum {column_name.lower()} is", string_max + ".")
+        column_name = st.multiselect("Please select a coordinate: ", columns)
+        for col in column_name:
+            st.write(f"Minimum value of {col}: {minmax(column_name, df)[0][col]}")
+            st.write(f"Maximum value of {col}: {minmax(column_name, df)[-1][col]}")
     elif choice == "Ship Analytics":
         page2()
     elif choice == "Value of Treasure":
