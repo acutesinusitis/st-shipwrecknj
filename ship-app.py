@@ -13,6 +13,11 @@ path = "C:/Users/acute/OneDrive - Bentley University/"
 
 df = pd.read_csv(path + "Working Shipwreck Database.csv")
 
+HtmlFile = open(“test.html”, ‘r’, encoding=‘utf-8’)
+source_code = HtmlFile.read()
+print(source_code)
+components.html(source_code, height=600)
+
 def page1():
     st.title("Hidden Treasures: A Collection of New Jersey Coastal Shipwrecks")
     st.markdown('<style>body{background-color: blue;}<\style>', unsafe_allow_html=True)
