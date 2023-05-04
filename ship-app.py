@@ -153,7 +153,7 @@ def page4():
 def main():
     menu = ["Map", "Ship Analytics", "Value of Treasure", "Ship Dimension Specifications"]
     choice = st.sidebar.selectbox("Select an Option:", menu)
-    def minmax(column_name, df = "C:/Users/acute/OneDrive - Bentley University/Working Shipwreck Database.csv"):
+    def minmax(column_name, df = (path + "Working Shipwreck Database.csv")):
         non_zero = df[df[column_name] != 0][column_name]  # Exclude zero values
         min_val = non_zero.min()
         max_val = df[column_name].max()
