@@ -98,7 +98,7 @@ def page3():
     df_page_2 = df_page_2[(df_page_2["SHIP VALUE"] >= min_values) & (df_page_2["SHIP VALUE"] <= max_values) #Filter by two or more conditions
     & (df_page_2["CARGO VALUE"] >= min_values2) & (df_page_2["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
     df_page_2 = df_page_2.replace(0, "No Data")
-    st.write(df_page_2)
+    # st.write(df_page_2)
     def min_nonzero(x):
         nonzero_vals = x[x != 0]
         if len(nonzero_vals) > 0:
