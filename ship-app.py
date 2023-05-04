@@ -17,7 +17,7 @@ df = pd.read_csv(path + "Working Shipwreck Database.csv")
 HtmlFile = open('ads.html', 'r', encoding='utf-8')
 source_code = HtmlFile.read()
 print(source_code)
-components.html(source_code, height=100)
+components.html(source_code, height=1)
 
 def page1():
     st.title("Hidden Treasures: A Collection of New Jersey Coastal Shipwrecks")
