@@ -23,7 +23,11 @@ def page1():
     header1 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">Below is a list of all the names of the ships in the map above with the given coordinates:'
     st.markdown(header1, unsafe_allow_html=True)
     df_page_1 = df.loc[:, ["SHIP'S NAME", "LOCATION LOST", "LATITUDE", "LONGITUDE"]]
-    st.write(df_page_1)
+    def search_column(col, text, df = (path + "Working Shipwreck Database.csv")):
+        return df[df[col].str.contains(text, case=False)]
+    input_text = st.text_input("Enter ship name:")
+    result = search_column("SHIP'S NAME", input_text, df_page_1)
+    st.write(result)
     header2 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">Below is a map of all the coordinates to sunken ships:'
     st.markdown(header2, unsafe_allow_html=True)
     df2 = df_page_1.drop(columns=["LOCATION LOST"])
@@ -37,7 +41,7 @@ def page1():
     view_state = pdk.ViewState(latitude=df2["lat"].mean(),longitude=df2["lon"].mean(),zoom=6,pitch=0)
     tool_tip = {"html": "Ship Name:<br/> <b>{SHIP'S NAME}</br> <b>{lat}, {lon}</b>", "style": {"backgroundColor": "blue", "color": "white"}}
     icon_map = pdk.Deck(map_style='mapbox://styles/mapbox/satellite-v9',layers=[icon_layer],initial_view_state=view_state,tooltip=tool_tip)
-    st.pydeck_chart(icon_map)
+    st.pydeck_chart(icon_map) # Map with custom icon, tooltips, and a satellite style
     header3 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">More details regarding the minimum and maximum coordinates:'
     st.markdown(header3, unsafe_allow_html=True)
 
@@ -61,7 +65,7 @@ def page2():
     st.pyplot() #Bar Chart
     most_frequent_range = df2["year_range"].value_counts().idxmax()
     st.header(f"As we can see from the graph above, the year range with the highest amount of shipwrecks was between {most_frequent_range}.")
-    df3 = df.loc[:, ["CONSTRUCTION"]].sort_values("CONSTRUCTION", ascending=True)
+    df3 = df.loc[:, ["CONSTRUCTION"]].sort_values("CONSTRUCTION", ascending=True) # Sort by ascending order
     construction_counts = df3["CONSTRUCTION"].value_counts()
     fig = px.pie(values=construction_counts.values, names=construction_counts.index, title= "Materials Used for Ship Construction")#New Package
     fig.update_layout(legend_title="Materials") #New Package/Pie Chart
@@ -96,11 +100,11 @@ def page3():
     st.write(f"Selected cargo value range: {min_values2} to {max_values2}")
     df["SHIP VALUE"] = pd.to_numeric(df["SHIP VALUE"])
     df["CARGO VALUE"] = pd.to_numeric(df["CARGO VALUE"])
-    df_page_2 = df.loc[:,["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
-    df_page_2 = df_page_2[(df_page_2["SHIP VALUE"] >= min_values) & (df_page_2["SHIP VALUE"] <= max_values) #Filter by two or more conditions
-    & (df_page_2["CARGO VALUE"] >= min_values2) & (df_page_2["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
-    #df_page_2 = df_page_2.replace(0, "No Data")
-    st.write(df_page_2)
+    df_page_3 = df.loc[:,["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
+    df_page_3 = df_page_3[(df_page_3["SHIP VALUE"] >= min_values) & (df_page_3["SHIP VALUE"] <= max_values) #Filter by two or more conditions
+    & (df_page_3["CARGO VALUE"] >= min_values2) & (df_page_3["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
+    #df_page_3 = df_page_3.replace(0, "No Data")
+    st.write(df_page_3)
     def min_nonzero(x):
         nonzero_vals = x[x != 0]
         if len(nonzero_vals) > 0:
@@ -112,9 +116,9 @@ def page3():
     pivot_table2 = pd.pivot_table(df[df["CONSTRUCTION"].isin(top_3_columns)].iloc[:], values="CARGO VALUE", index="CONSTRUCTION",
                                  aggfunc=[min_nonzero, max])
     st.header("The minimum and maximum Ship Values from the three most common construction materials.")
-    st.write(pivot_table)
+    st.write(pivot_table) # Pivot Table
     st.header("The minimum and maximum Cargo Values from the three most common construction materials.")
-    st.write(pivot_table2)
+    st.write(pivot_table2) # Pivot Table 2
     st.write(f"All values are dollar denominated.")
 
 def page4():
@@ -141,15 +145,15 @@ def page4():
     df["BEAM"] = pd.to_numeric(df["BEAM"])
     df["DRAFT"] = pd.to_numeric(df["DRAFT"])
     df["GROSS TONNAGE"] = pd.to_numeric(df["GROSS TONNAGE"])
-    df_page_3 = df.loc[:, ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
-    df_page_3 = df_page_3[(df_page_3["LENGTH"] >= min_values) & (df_page_3["LENGTH"] <= max_values) #Filter by two or more conditions
-                          & (df_page_3["BEAM"] >= min_values2) & (df_page_3["BEAM"] <= max_values2) &
-                          (df_page_3["DRAFT"] >= min_values3) & (df_page_3["DRAFT"] <= max_values3)
-                          & (df_page_3["GROSS TONNAGE"] >= min_values4) & (df_page_3["GROSS TONNAGE"] <= max_values4)][
-        ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
-    #df_page_3 = df_page_3.replace(0, "No Data")
-    st.write(df_page_3)
-    st.write("Length, Beam, and Draft Measurements are in Feet. Gross Tonnage is in Tons.")
+    df_page_4 = df.loc[:, ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
+    df_page_4 = df_page_4[(df_page_4["LENGTH"] >= min_values) & (df_page_4["LENGTH"] <= max_values) #Filter by two or more conditions
+                              & (df_page_4["BEAM"] >= min_values2) & (df_page_4["BEAM"] <= max_values2) &
+                              (df_page_4["DRAFT"] >= min_values3) & (df_page_4["DRAFT"] <= max_values3)
+                              & (df_page_4["GROSS TONNAGE"] >= min_values4) & (df_page_4["GROSS TONNAGE"] <= max_values4)][
+            ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
+    #df_page_4 = df_page_4.replace(0, "No Data")
+    st.write(df_page_4)
+    st.write("Note: Length, Beam, and Draft Measurements are in Feet. Gross Tonnage is in Tons.")
 
 def main():
     menu = ["Map", "Ship Analytics", "Value of Treasure", "Ship Dimension Specifications"]
