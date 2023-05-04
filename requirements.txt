@@ -5,3 +5,4 @@ plotly==5.3.1
 pydeck==0.6.2
 numpy==1.21.2
 streamlit==0.88.0
+math
