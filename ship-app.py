@@ -5,6 +5,7 @@ from PIL import Image
 import plotly.express as px #New Package
 import pydeck as pdk
 import numpy as np
+import math
 
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
