@@ -13,6 +13,8 @@ path = "C:/Users/acute/OneDrive - Bentley University/"
 
 df = pd.read_csv(path + "Working Shipwreck Database.csv")
 
+st.set_page_config(page_title="NJ Shipwreck Database")
+
 def page1():
     st.title("Hidden Treasures: A Collection of New Jersey Coastal Shipwrecks")
     st.markdown('<style>body{background-color: blue;}<\style>', unsafe_allow_html=True)
@@ -20,7 +22,7 @@ def page1():
     st.image(image)
     shipwreck_count = len(df)
     st.header(f"At this time there are currently {shipwreck_count} shipwrecks along the coast of New Jersey with identified coordinates.\n")
-    header1 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">Below is a list of all the names of the ships in the map above with the given coordinates:'
+    header1 = '<p style="font-family:Verdana; color:#00CED1; font-size: 25px;">Below is a list of all the names of the ships in the map above with the given coordinates:'
     st.markdown(header1, unsafe_allow_html=True)
     df_page_1 = df.loc[:, ["SHIP'S NAME", "LOCATION LOST", "LATITUDE", "LONGITUDE"]]
     def search_column(col, text, df = (path + "Working Shipwreck Database.csv")):
@@ -28,7 +30,7 @@ def page1():
     input_text = st.text_input("Enter ship name:")
     result = search_column("SHIP'S NAME", input_text, df_page_1)
     st.write(result)
-    header2 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">Below is a map of all the coordinates to sunken ships:'
+    header2 = '<p style="font-family:Verdana; color:#00CED1; font-size: 25px;">Below is a map of all the coordinates to sunken ships:'
     st.markdown(header2, unsafe_allow_html=True)
     df2 = df_page_1.drop(columns=["LOCATION LOST"])
     df2.rename(columns={"LATITUDE": "lat", "LONGITUDE": "lon"}, inplace=True)
@@ -42,11 +44,12 @@ def page1():
     tool_tip = {"html": "Ship Name:<br/> <b>{SHIP'S NAME}</br> <b>{lat}, {lon}</b>", "style": {"backgroundColor": "blue", "color": "white"}}
     icon_map = pdk.Deck(map_style='mapbox://styles/mapbox/satellite-v9',layers=[icon_layer],initial_view_state=view_state,tooltip=tool_tip)
     st.pydeck_chart(icon_map) # Map with custom icon, tooltips, and a satellite style
-    header3 = '<p style="font-family:Serif; color:#00CED1; font-size: 25px;">More details regarding the minimum and maximum coordinates:'
+    header3 = '<p style="font-family:Verdana; color:#00CED1; font-size: 25px;">More details regarding the minimum and maximum coordinates:'
     st.markdown(header3, unsafe_allow_html=True)
 
 def page2():
     st.title("Ship Analytics")
+    # Discussion Point 1
     df1 = df.loc[:, ["YEAR LOST"]]
     df1_sorted = df1.sort_values("YEAR LOST", ascending=True) #Sorting Column in Ascending Order
     year_ranges = range(1750, 2051, 50) #Created New Column to Sort "YEAR LOST" into a range of years for chart summary
@@ -103,6 +106,7 @@ def page3():
     df_page_3 = df.loc[:,["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
     df_page_3 = df_page_3[(df_page_3["SHIP VALUE"] >= min_values) & (df_page_3["SHIP VALUE"] <= max_values) #Filter by two or more conditions
     & (df_page_3["CARGO VALUE"] >= min_values2) & (df_page_3["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
+    #Problem to talk about:
     df_page_3 = df_page_3.astype(str)
     df_page_3 = df_page_3.apply(lambda x: x.fillna("No Data") if x.dtype == "object" else x.fillna(0))
     df_page_3 = df_page_3.replace("0.0", "No Data")
@@ -117,9 +121,11 @@ def page3():
     pivot_table = pd.pivot_table(df[df["CONSTRUCTION"].isin(top_3_columns)], values="SHIP VALUE", index="CONSTRUCTION", aggfunc=[min_nonzero,max]) # Pivot Tables
     pivot_table2 = pd.pivot_table(df[df["CONSTRUCTION"].isin(top_3_columns)].iloc[:], values="CARGO VALUE", index="CONSTRUCTION",
                                  aggfunc=[min_nonzero, max])
-    st.header("The minimum and maximum Ship Values from the three most common construction materials.")
+    header1 = '<p style="font-family:Verdana; color:#00CED1; font-size: 30px;">The minimum and maximum ship values from the three most common construction materials:'
+    st.markdown(header1, unsafe_allow_html=True)
     st.write(pivot_table) # Pivot Table
-    st.header("The minimum and maximum Cargo Values from the three most common construction materials.")
+    header2 = '<p style="font-family:Verdana; color:#00CED1; font-size: 30px;">The minimum and maximum cargo values from the three most common construction materials:'
+    st.markdown(header2, unsafe_allow_html=True)
     st.write(pivot_table2) # Pivot Table 2
     st.write(f"All values are dollar denominated.")
 
@@ -135,6 +141,7 @@ def page4():
     DEFAULT_VALUE_BEAM = [MIN_VALUE, MAX_VALUE_BEAM]
     DEFAULT_VALUE_DRAFT = [MIN_VALUE, MAX_VALUE_DRAFT]
     DEFAULT_VALUE_GROSS = [MIN_VALUE, MAX_VALUE_GROSS]
+    #Discussion Point 2
     min_values, max_values= st.slider("Select a ship length range:", MIN_VALUE, MAX_VALUE_LENGTH, DEFAULT_VALUE_LENGTH, INCREMENT)
     st.write(f"Selected ship length range: {min_values} to {max_values}")
     min_values2, max_values2 = st.slider("Select a ship beam range:", MIN_VALUE, MAX_VALUE_BEAM, DEFAULT_VALUE_BEAM, INCREMENT)
