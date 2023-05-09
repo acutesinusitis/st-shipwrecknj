@@ -105,7 +105,7 @@ def page3():
     & (df_page_3["CARGO VALUE"] >= min_values2) & (df_page_3["CARGO VALUE"] <= max_values2)][["SHIP'S NAME", "SHIP VALUE", "CARGO VALUE"]]
     df_page_3 = df_page_3.astype(str)
     df_page_3 = df_page_3.apply(lambda x: x.fillna("No Data") if x.dtype == "object" else x.fillna(0))
-    df_page_3 = df_page_3.replace(0, "No Data")
+    df_page_3 = df_page_3.replace("0.0", "No Data")
     st.write(df_page_3)
     def min_nonzero(x):
         nonzero_vals = x[x != 0]
