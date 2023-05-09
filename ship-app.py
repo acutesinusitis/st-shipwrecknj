@@ -151,6 +151,7 @@ def page4():
                               (df_page_4["DRAFT"] >= min_values3) & (df_page_4["DRAFT"] <= max_values3)
                               & (df_page_4["GROSS TONNAGE"] >= min_values4) & (df_page_4["GROSS TONNAGE"] <= max_values4)][
             ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
+    df_page_4 = df_page_4.astype(str)
     df_page_4 = df_page_4.apply(lambda x: x.fillna("No Data") if x.dtype == "object" else x.fillna(0))
     df_page_4 = df_page_4.replace(0, "No Data")
     st.write(df_page_4)
