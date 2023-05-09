@@ -153,7 +153,7 @@ def page4():
             ["SHIP'S NAME", "LENGTH", "BEAM", "DRAFT", "GROSS TONNAGE"]]
     df_page_4 = df_page_4.astype(str)
     df_page_4 = df_page_4.apply(lambda x: x.fillna("No Data") if x.dtype == "object" else x.fillna(0))
-    df_page_4 = df_page_4.replace("0", "No Data")
+    df_page_4 = df_page_4.replace("0.0", "No Data")
     st.write(df_page_4)
     st.write("Note: Length, Beam, and Draft Measurements are in Feet. Gross Tonnage is in Tons.")
 
