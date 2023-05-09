@@ -6,4 +6,4 @@ pydeck==0.6.2
 numpy==1.21.2
 streamlit==0.88.0
 click==7.1.2
-altair.vegalite.v4==4.8.1
+altair==4.1.0
