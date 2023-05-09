@@ -6,18 +6,12 @@ import plotly.express as px #New Package
 import pydeck as pdk
 import numpy as np
 import math
-import streamlit.components.v1 as components
 
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
 path = "C:/Users/acute/OneDrive - Bentley University/"
 
 df = pd.read_csv(path + "Working Shipwreck Database.csv")
-
-HtmlFile = open('ads.html', 'r', encoding='utf-8')
-source_code = HtmlFile.read()
-print(source_code)
-components.html(source_code, height=1)
 
 def page1():
     st.title("Hidden Treasures: A Collection of New Jersey Coastal Shipwrecks")
