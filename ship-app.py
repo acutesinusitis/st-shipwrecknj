@@ -7,6 +7,22 @@ import pydeck as pdk
 import numpy as np
 import math
 
+ad_unit_code_ = """
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8357676857910564"
+     crossorigin="anonymous"></script>
+<!-- Ship1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8357676857910564"
+     data-ad-slot="6944243680"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+"""
+st.html(ad_unit_code_)
+
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
 path = "C:/Users/acute/OneDrive - Bentley University/"
