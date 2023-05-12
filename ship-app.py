@@ -21,7 +21,7 @@ ad_unit_code_ = """
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 """
-st.html(ad_unit_code_)
+st.markdown(ad_unit_code_, unsafe_allow_html=True)
 
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
