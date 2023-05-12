@@ -25,6 +25,12 @@ ad_unit_code_ = """
 """
 st.markdown(ad_unit_code_, unsafe_allow_html=True)
 
+adsense_code = """
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8357676857910564"
+     crossorigin="anonymous"></script>
+"""
+st.markdown(adsense_code, unsafe_allow_html=True)
+
 image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 
 path = "C:/Users/acute/OneDrive - Bentley University/"
