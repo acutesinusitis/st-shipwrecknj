@@ -7,6 +7,8 @@ import pydeck as pdk
 import numpy as np
 import math
 
+st.set_page_config(page_title="NJ Shipwreck Database")
+
 ad_unit_code_ = """
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8357676857910564"
      crossorigin="anonymous"></script>
@@ -28,8 +30,6 @@ image1 = "C:/Users/acute/OneDrive - Bentley University/shipwrecks_1.jpg"
 path = "C:/Users/acute/OneDrive - Bentley University/"
 
 df = pd.read_csv(path + "Working Shipwreck Database.csv")
-
-st.set_page_config(page_title="NJ Shipwreck Database")
 
 def page1():
     st.title("Hidden Treasures: A Collection of New Jersey Coastal Shipwrecks")
